@@ -14,7 +14,7 @@
   become: true
 
 - file:
-    src: "/home/{{ atlassian_user_name }}/atlassian-confluence-software-{{ confluence_version }}-standalone"
+    src: "/home/{{ atlassian_user_name }}/atlassian-confluence-{{ confluence_version }}"
     dest: "/home/{{ atlassian_user_name }}/{{ confluence_directory }}"
     state: link
   become_user: "{{ atlassian_user_name }}"
@@ -27,21 +27,21 @@
   become_user: "{{ atlassian_user_name }}"
   become: true
 
-#- template:
-#    src: ../templates/atlassian-jira/WEB-INF/classes/jira-application.properties
-#    dest: "/home/{{ atlassian_user_name }}/{{ jira_directory }}/atlassian-jira/WEB-INF/classes/jira-application.properties"
-#    mode: 0644
-#    force: yes
-#  become_user: "{{ atlassian_user_name }}"
-#  become: true
-#
-#- template:
-#    src: ../templates/conf/server.xml
-#    dest: "/home/{{ atlassian_user_name }}/{{ jira_directory }}/conf/server.xml"
-#    mode: 0644
-#    force: yes
-#  become_user: "{{ atlassian_user_name }}"
-#  become: true
+- template:
+    src: ../templates/atlassian-confluence/confluence/WEB-INF/classes/confluence-init.properties
+    dest: "/home/{{ atlassian_user_name }}/{{ confluence_directory }}/confluence/WEB-INF/classes/confluence-init.properties"
+    mode: 0644
+    force: yes
+  become_user: "{{ atlassian_user_name }}"
+  become: true
+
+- template:
+    src: ../templates/atlassian-confluence/conf/server.xml
+    dest: "/home/{{ atlassian_user_name }}/{{ confluence_directory }}/conf/server.xml"
+    mode: 0644
+    force: yes
+  become_user: "{{ atlassian_user_name }}"
+  become: true
 
 
 - template:

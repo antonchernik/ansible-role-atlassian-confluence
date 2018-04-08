@@ -19,12 +19,12 @@ Available variables are listed below, along with default values (see defaults/ma
 | Parameter | Required | Default | Choices | Comments |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | default_download_directory | yes | /tmp | | Sets directory where files will be downloaded |
-| confluence_version  | yes | 6.7.1 | | Sets Atlassian Confluence version for installing  |
+| confluence_version  | yes | 6.8.1 | | Sets Atlassian Confluence version for installing  |
 | atlassian_user_name | yes  | atlassian | | Sets Confluence system user to run with /sbin/nologin |
 | confluence_directory | yes  | confluence | | Sets Confluence directory name. Example /home/[:atlassian_user_name]/[:confluence_directory] |
 | confluence_home_directory | yes  | confluence-home | | Sets Confluence directory for all file. Example /home/[:atlassian_user_name]/[:confluence_home_directory] |
 | java_home_directory | yes  | /usr/lib/jvm | | Sets path to JAVA_HOME |
-| java_mysql_connector_version | yes  | 5.1.45 | | Sets version for MySQL java connector |
+| java_mysql_connector_version | yes  | 5.1.46 | | Sets version for MySQL java connector |
 
 
 

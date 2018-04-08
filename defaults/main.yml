@@ -1,9 +1,9 @@
 ---
 # defaults file for antonchernik.atlassian-confluence
 default_download_directory: /tmp
-confluence_version: 6.7.1
+confluence_version: 6.8.1
 atlassian_user_name: atlassian
 confluence_directory: confluence
 confluence_home_directory: confluence-home
 java_home_directory: /usr/lib/jvm
-java_mysql_connector_version: 5.1.45
+java_mysql_connector_version: 5.1.46

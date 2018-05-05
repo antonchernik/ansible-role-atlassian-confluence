@@ -17,24 +17,18 @@
     src: "https://www.atlassian.com/software/confluence/downloads/binary/atlassian-confluence-{{ confluence_version }}.tar.gz"
     dest: "/home/{{ atlassian_user_name }}/"
     remote_src: True
-  become_user: "{{ atlassian_user_name }}"
-  become: true
   when: is_confluence_service_installed.rc != 0
 
 - file:
     src: "/home/{{ atlassian_user_name }}/atlassian-confluence-{{ confluence_version }}"
     dest: "/home/{{ atlassian_user_name }}/{{ confluence_directory }}"
     state: link
-  become_user: "{{ atlassian_user_name }}"
-  become: true
   when: is_confluence_service_installed.rc != 0
 
 - file:
     path: "/home/{{ atlassian_user_name }}/{{ java_home_directory }}"
     state: directory
     mode: "u=rwx,go-rwx"
-  become_user: "{{ atlassian_user_name }}"
-  become: true
   when: is_confluence_service_installed.rc != 0
 
 - template:
@@ -42,8 +36,6 @@
     dest: "/home/{{ atlassian_user_name }}/{{ confluence_directory }}/confluence/WEB-INF/classes/confluence-init.properties"
     mode: 0644
     force: yes
-  become_user: "{{ atlassian_user_name }}"
-  become: true
   when: is_confluence_service_installed.rc != 0
 
 - template:
@@ -51,25 +43,23 @@
     dest: "/home/{{ atlassian_user_name }}/{{ confluence_directory }}/conf/server.xml"
     mode: 0644
     force: yes
-  become_user: "{{ atlassian_user_name }}"
-  become: true
   when: is_confluence_service_installed.rc != 0
 
 
 - template:
     src: ../templates/etc/init.d/confluence.j2
     dest: /etc/init.d/confluence
-    owner: "{{ atlassian_user_name }}"
-    mode: "u=rwx,go=rx"
-  become: true
+    mode: 0755
+    owner: root
+    group: root
   when: is_confluence_service_installed.rc != 0
+
 
 - get_url:
    url: "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-{{ java_mysql_connector_version }}.tar.gz"
    dest: "{{ default_download_directory }}"
    owner: "{{ atlassian_user_name }}"
    group: "{{ atlassian_user_name }}"
-  become: true
   when: is_confluence_service_installed.rc != 0
 
 - unarchive:
@@ -78,15 +68,17 @@
    remote_src: True
    owner: "{{ atlassian_user_name }}"
    group: "{{ atlassian_user_name }}"
-  become: true
   when: is_confluence_service_installed.rc != 0
 
 
 - name: Confluence ROLE | Copy mysql-connector-java
   command: "chdir={{ default_download_directory }}/mysql-connector-java-{{ java_mysql_connector_version }} cp mysql-connector-java-{{ java_mysql_connector_version }}-bin.jar /home/{{ atlassian_user_name }}/{{ confluence_directory }}/lib"
-  become_user: "{{ atlassian_user_name }}"
-  become: true
   when: is_confluence_service_installed.rc != 0
+
+- name: Fix permissions
+  file: path=/home/{{ atlassian_user_name }} owner={{ atlassian_user_name }} group={{ atlassian_user_name }} mode=0775 state=directory recurse=yes
+
+
 
 - name: Confluence ROLE | Update script list
   command: update-rc.d -f confluence defaults
